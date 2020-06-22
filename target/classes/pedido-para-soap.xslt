@@ -2,7 +2,7 @@
     <xsl:output omit-xml-declaration="no" indent="yes"/>
 
     <xsl:template match="/pedido">
-		<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nota="http://financeiro.com.br/nota">
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nota="http://financeiro.com.br/nota">
            <soap:Body>
                 <nota:nota>
                     <nota:data><xsl:value-of select="dataCompra"/></nota:data>
@@ -10,9 +10,9 @@
                     <nota:itens>
                         <xsl:for-each select="itens/item">
                             <nota:item>
-                            	<nota:quantidade><xsl:value-of select="quantidade"/></nota:quantidade>
-                            	<nota:formato><xsl:value-of select="formato"/></nota:formato>
-                            	<nota:codigo><xsl:value-of select="livro/codigo"/></nota:codigo>
+                                <nota:quantidade><xsl:value-of select="quantidade"/></nota:quantidade>
+                                <nota:formato><xsl:value-of select="formato"/></nota:formato>
+                                <nota:codigo><xsl:value-of select="livro/codigo"/></nota:codigo>
                             </nota:item>
                         </xsl:for-each>
                     </nota:itens>

@@ -75,6 +75,8 @@ public class RotaHttpPollingNegociacoes {
         mysqlDs.setPassword("toor");
         return mysqlDs;
     }
+    
+    
 
 	
 	

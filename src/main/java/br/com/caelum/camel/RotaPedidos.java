@@ -1,5 +1,6 @@
 package br.com.caelum.camel;
 
+import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -12,12 +13,16 @@ public class RotaPedidos {
 	public static void main(String[] args) throws Exception {
 
 		CamelContext context = new DefaultCamelContext();
+		
+		context.addComponent("activemq", ActiveMQComponent.activeMQComponent("tcp://localhost:8161"));
+		
+		
 		context.addRoutes(new RouteBuilder() {
 
 			@Override
 			public void configure() throws Exception {
 
-				errorHandler(deadLetterChannel("file:erro").
+				errorHandler(deadLetterChannel("activemq:queue:pedidos.DLQ").
 						logExhaustedMessageHistory(true).
 							maximumRedeliveries(3).
 							redeliverDelay(2000).
@@ -32,7 +37,8 @@ public class RotaPedidos {
 								})
 							);
 
-				from("file:pedidos?delay=5s&noop=true").routeId("rota-pedidos").to("validator:pedido.xsd");
+				from("activemq:queue:pedidos").
+				routeId("rota-pedidos").to("validator:pedido.xsd");
 
 //				multicast().
 //				to("direct:soap").
